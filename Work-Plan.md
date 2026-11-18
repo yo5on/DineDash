@@ -1,181 +1,341 @@
-# DineDash
-## Two-Member Project Work Plan
+# DineDash – Two-Member Project Work Plan
 
-**Project:** Demand-Aware Canteen Ordering and Real-Time Token Dispatch System  
-**Purpose:** A practical 15-week division of work for two teammates. This document defines ownership, shared responsibilities, integration points, GitHub workflow and review milestones. Replace “Member 1” and “Member 2” with the team members’ names.
+**Project Title:** Demand-Aware Canteen Ordering and Real-Time Token Dispatch System
 
-> **Faculty approval check:** The ADS481 Student Guide states that each team has 3 members. This document allocates the work for your requested 2-person team, but confirm with your faculty guide that a 2-member team is permitted before treating this allocation as final.
+**Duration:** 15 Weeks  
+**Team Size:** 2 Members  
+**Repository:** https://github.com/yo5on/DineDash
 
-## 1. Project goal
+---
 
-DineDash aims to reduce congestion in the college canteen by digitising order flow between students, the billing point and food counters. It supports walk-in orders through a billing interface and, after the core workflow is stable, advance orders through capacity-controlled pickup slots. Paid orders are converted into digital tokens and counter-specific tickets; staff update preparation status and students collect food when ready.
+## 1. Project Objective
 
-## 2. The two-person ownership model
+DineDash aims to reduce congestion in the college canteen by digitising the ordering, billing and food distribution workflow.
 
-| Member | Primary ownership | Main deliverables |
-|---|---|---|
-| **Member 1 — Backend & Data** | Java/Spring Boot backend, database, order rules and concurrency | REST API, PostgreSQL schema/migrations, payment confirmation flow, token and ticket dispatch, slot-capacity transactions, backend tests and event logging. |
-| **Member 2 — Frontend & Analytics** | React application, user interfaces, API integration and analytics | Student/billing/counter/admin screens, live status UI, API integration, analytics dashboard, Python analysis and visualisations. |
+Students can place orders through a mobile-friendly web application or the existing billing counter. Paid orders receive digital tokens and are automatically dispatched to their respective food counters.
 
-## 3. Work both members must share
+Staff update preparation status, and students collect their food when ready.
 
-- Agree on the final workflow and requirements before implementation; validate actual counter arrangements with canteen staff.
-- Collect baseline observations of the current queues and service times, subject to college/canteen permission.
-- Create and review the architecture, ER diagram, class diagram and API contract together.
-- Integrate modules regularly, test the complete end-to-end workflow and fix cross-module defects together.
-- Contribute to literature survey, report, presentation, demonstration and viva preparation.
+The system will also provide analytics to monitor waiting times, peak-hour demand, counter utilisation and food popularity.
 
-## 4. Detailed responsibility split
+---
 
-### Member 1 — Backend, database and operating-systems implementation
+## 2. Division of Responsibilities
 
-1. Create the Spring Boot project and organise the backend as a modular monolith (one application with clearly separated modules).
-2. Design and maintain PostgreSQL tables, relationships, keys, constraints, indexes and versioned database migrations.
-3. Implement core domain logic: menu items, orders, order items, payments, counters, counter tickets, tokens and order-status transitions.
-4. Build REST endpoints and document request/response formats in the shared API contract.
-5. Implement walk-in order entry and staff-confirmed cash/UPI payment recording. Use a mock payment flow for online pre-orders; do not depend on a real payment gateway.
-6. Generate unique tokens and split multi-counter orders into counter-specific tickets while keeping one parent order.
-7. Implement dispatch and concurrency features: dispatcher/executor threads, bounded queues where appropriate, synchronisation, safe slot booking, idempotency and atomic token redemption.
-8. Publish order events and timestamps needed for live updates and analytics; provide reliable database-backed recovery after a server restart.
-9. Write backend unit/integration tests, concurrency tests and basic load tests; maintain backend setup instructions.
+### Member 1 – Backend, Database and Operating Systems
 
-### Member 2 — Frontend, integration and analytics
+**Primary Responsibility:** Backend development and system logic.
 
-1. Create one React application with role-based screens for students, billing staff, food-counter staff and administrators.
-2. Build the student menu, cart, checkout, pickup-slot selection, token view and order-tracking experience.
-3. Build the billing/POS screen for staff to enter walk-in orders, confirm recorded payments and issue a token/printable slip.
-4. Build the counter dashboard showing queued, preparing and ready tickets, with actions to update status and verify collection.
-5. Build the admin screens for menu/counter configuration and operational reporting.
-6. Integrate each screen with the backend using the agreed REST API contract; handle loading, errors, invalid/expired slots and unavailable items.
-7. Implement WebSocket client updates for live order status. Add REST refresh/polling fallback when the connection drops.
-8. Create the analytics dashboard and Python workflow to clean event/order data, calculate waiting-time and counter metrics, and produce charts.
-9. Write frontend component/integration tests, document how to run the UI and check usability with a small number of test users.
+**Technologies:**
+- Java 21
+- Spring Boot
+- PostgreSQL
+- REST APIs
+- Java Concurrency
 
-### Shared ownership boundaries
+**Responsibilities:**
 
-| Area | Owner | Other member contributes |
-|---|---|---|
-| Database schema and migrations | Member 1 | Review data needs and test queries. |
-| API contract | Both | Agree before either side builds against it. |
-| React screens and UI components | Member 2 | Review workflows and test with API. |
-| Business rules and concurrency | Member 1 | Verify behaviour through UI and test cases. |
-| Event data and analytics | Member 2 (analysis); Member 1 (event capture) | Agree on event names and timestamps. |
+1. Create and configure the Spring Boot backend.
+2. Design the database schema and relationships.
+3. Implement user authentication and role management.
+4. Develop menu and food management APIs.
+5. Implement order creation and management.
+6. Implement payment confirmation logic.
+7. Generate unique digital tokens and QR codes.
+8. Implement automatic order dispatch to food counters.
+9. Manage order status transitions.
+10. Implement pickup verification.
+11. Implement pickup slot and capacity management.
+12. Handle concurrent bookings and race conditions.
+13. Implement multithreading and synchronisation.
+14. Write backend unit and integration tests.
+15. Implement event logging and database transactions.
 
-## 5. Fifteen-week execution roadmap
+**Expected Deliverables:**
 
-The roadmap follows the ADS481 guide’s approximate 15-week schedule. The department’s announced dates and faculty guide instructions take priority. Review 1 is targeted around Week 5 and Review 2 around Week 9.
+- Working Spring Boot backend.
+- PostgreSQL database.
+- REST API endpoints.
+- Order and token management.
+- Counter dispatch mechanism.
+- Concurrency implementation and tests.
+- Backend documentation.
 
-| Week | Milestone | Member 1 — Backend/Data | Member 2 — Frontend/Analytics | Exit result |
-|---:|---|---|---|---|
-| 1 | Approval, observation and scope | Backend requirements, order states and data to capture. | Map student/staff journeys; record queue observation sheet. | Approved problem scope and initial field notes. |
-| 2 | Baseline and research | Identify service metrics; draft database entities and risks. | Collect timing observations; review 2–3 related systems/papers. | Baseline dataset, literature notes and requirements draft. |
-| 3 | System design | ER model, class model, module boundaries and API draft. | Wireframes, role journeys and screen list; review API draft. | Architecture, ER/class diagrams and agreed API contract. |
-| 4 | Development setup | Create Spring Boot skeleton, PostgreSQL connection and migrations. | Create React/Vite skeleton, routes and shared layout. | Both applications run locally; repository conventions agreed. |
-| 5 | Review 1 preparation | Demonstrate design, schema and first backend endpoints. | Demonstrate wireframes/prototype and requirements. | Review 1 package: problem, objectives, architecture, diagrams and progress. |
-| 6 | Walk-in ordering core | Implement menu/order creation, payment record and token generation. | Build billing/POS and student menu/cart screens against API. | A walk-in order can be entered and saved. |
-| 7 | Counter ticket dispatch | Split orders into counter tickets; implement status rules and dispatch. | Build counter dashboard and connect order/ticket APIs. | Paid order appears at the correct counter dashboard. |
-| 8 | Collection and MVP hardening | Implement QR/token validation, duplicate protection and backend tests. | Build token display, ready/collection UI and end-to-end test flow. | Core MVP: billing → token → counter → ready → collection. |
-| 9 | Review 2 | Present stable backend, data model and concurrency evidence. | Present integrated UI and live workflow demonstration. | Review 2: working prototype and progress against plan. |
-| 10 | Slot booking | Implement slot/capacity model and safe capacity reservation. | Build slot picker, online pre-order and checkout screens. | Capacity-controlled pre-order flow with mock payment. |
-| 11 | Real-time and reliability | Complete race-condition/idempotency tests; improve event logging. | Integrate WebSockets, reconnect behaviour and polling fallback. | Reliable updates and documented failure/recovery behaviour. |
-| 12 | Analytics and optional forecast | Expose/export consistent event data and SQL reports. | Build charts and compare metrics; try demand forecasting only if data supports it. | Analytics dashboard and evidence-based results. |
-| 13 | Evaluation | Run backend load/concurrency tests and support pilot/simulation. | Analyse before/after observations, usability and charts. | Evaluation results and limitations. |
-| 14 | Report and presentation | Write architecture, database, backend, OS and testing sections. | Write UI, analytics, results and visual material sections. | Complete report draft and 20–30 slide presentation draft. |
-| 15 | Final review and viva | Fix backend defects; prepare API, DB and OS explanations. | Fix UI defects; prepare workflow, networks and analytics explanations. | Rehearsed demo, final report, code and viva readiness. |
+### Member 2 – Frontend, Integration and Analytics
 
-## 6. Build scope and technical hand-offs
+**Primary Responsibility:** User interfaces and data visualisation.
 
-### Build in this order
+**Technologies:**
 
-| Priority | Feature | Owner / hand-off |
-|---|---|---|
-| **MVP first** | Menu and walk-in order creation | Member 1 exposes endpoints; Member 2 builds menu/POS screens. |
-| **MVP first** | Payment confirmation record and token generation | Member 1 implements rules; Member 2 shows confirmation/token. |
-| **MVP first** | Counter-specific ticket dispatch and status updates | Member 1 creates tickets/status API; Member 2 builds counter dashboard. |
-| **MVP first** | Token/QR verification and collection | Member 1 validates once-only redemption; Member 2 implements scan/type UI. |
-| **Next** | Slot booking and capacity control | Member 1 owns transactional capacity; Member 2 builds slot selection and feedback. |
-| **Next** | Online pre-order with mock payment | Member 1 owns payment/order state; Member 2 owns checkout screens. |
-| **Next** | Live updates and analytics | Member 1 publishes events/WebSocket messages; Member 2 consumes updates and builds reports. |
-| **Optional** | Demand forecasting | Member 2 explores forecasting; Member 1 connects approved capacity suggestions only if useful. |
+- React
+- Vite
+- JavaScript / TypeScript
+- Python
+- Pandas
+- Matplotlib
+- Chart.js
 
-### Technical hand-off rules
+**Responsibilities:**
 
-1. Member 1 must publish the endpoint, JSON fields, status codes and example response before Member 2 integrates a feature.
-2. Member 2 should build against agreed API contracts. Use temporary mock data only while the real endpoint is being developed, and remove it from the final integrated flow.
-3. Use one shared set of order/ticket statuses. Do not invent separate names in the backend and frontend.
-4. PostgreSQL is the source of truth for orders, payments, capacity and collection. WebSocket messages notify clients; clients reload current state from REST after reconnecting.
-5. Commit database migrations and API documentation with the code changes that depend on them.
+1. Set up the React frontend.
+2. Design the application layout and navigation.
+3. Develop the student dashboard.
+4. Develop the food menu and ordering interface.
+5. Implement shopping cart and checkout screens.
+6. Develop the billing/POS interface.
+7. Develop the food counter dashboard.
+8. Develop the admin dashboard.
+9. Integrate frontend screens with backend REST APIs.
+10. Implement real-time order status updates.
+11. Implement token display and QR scanning interface.
+12. Build the analytics dashboard.
+13. Analyse order and waiting-time data.
+14. Create charts for peak hours, food popularity and counter utilisation.
+15. Explore demand forecasting using machine learning if sufficient data is available.
+16. Write frontend and integration tests.
 
-### Recommended first-pass order statuses
+**Expected Deliverables:**
 
-- **Order:** `PENDING_PAYMENT` → `PAID` → `PARTIALLY_COLLECTED` → `COLLECTED` (with `CANCELLED`/`EXPIRED` outcomes where applicable).
-- **Counter ticket:** `QUEUED` → `PREPARING` → `READY` → `COLLECTED` (with `UNCOLLECTED`/`CANCELLED` outcomes where appropriate).
+- Working React application.
+- Student ordering interface.
+- Billing interface.
+- Food counter dashboard.
+- Admin dashboard.
+- Analytics and visualisations.
+- Frontend documentation.
 
-Finalise the exact state transitions together before implementation.
+---
 
-### Scope control
+## 3. Shared Responsibilities
 
-| Must-have for a credible demo | Optional extensions / future work |
-|---|---|
-| Role-based screens; menu; walk-in order; payment confirmation record; unique token; counter tickets; status updates; collection verification; persistent database; basic logs and tests. | Real payment gateway; native mobile app; staff reassignment optimisation; advanced machine learning; inventory hardware integration; complex multi-branch support. |
+Both members must work together on:
 
-> **Scope rule:** Finish the walk-in-to-token-to-counter-to-collection workflow before building pre-ordering. Slot booking is the next priority. Demand forecasting is optional and should only be attempted after enough usable data is available.
+- Problem identification and finalisation.
+- Literature survey and research.
+- Requirement analysis.
+- System architecture design.
+- ER diagram and class diagram review.
+- API contract planning.
+- Integration testing.
+- Performance evaluation.
+- Project report.
+- Presentation preparation.
+- Final demonstration and viva.
 
-## 7. GitHub collaboration workflow
+Neither member should work in complete isolation. Both must understand the complete system.
 
-Keep one shared repository: [github.com/yo5on/DineDash](https://github.com/yo5on/DineDash). Both members use their own GitHub accounts and clone the same repository. Do not fork it if both are collaborators.
+---
 
-### Routine for each work session
+## 4. Fifteen-Week Development Roadmap
 
-1. Update local `main`: `git switch main`, then `git pull origin main`.
-2. Switch to your own feature branch. Merge the latest `main` into that branch when needed.
-3. Implement one focused task; run the relevant tests and inspect `git status`.
-4. Commit with a meaningful message, for example: `feat: add counter ticket status endpoint`.
-5. Push the feature branch and open a Pull Request targeting `main`.
-6. Ask the other member to review. Merge only after checks pass; avoid direct pushes to `main`.
+| Week | Work to Complete | Member 1 | Member 2 |
+|------|-----------------|-----------|-----------|
+| 1 | Project finalisation | Backend requirements | Workflow research |
+| 2 | Data collection and research | Database planning | Queue observations and literature survey |
+| 3 | System design | ER and class diagrams | UI wireframes and architecture review |
+| 4 | Development setup | Spring Boot setup | React setup |
+| 5 | Review 1 preparation | Database and backend prototype | UI prototype and documentation |
+| 6 | Core ordering | Order APIs and payment records | Menu and billing interface |
+| 7 | Token dispatch | Token generation and counter tickets | Counter dashboard |
+| 8 | Core MVP integration | Token verification and order status | Student tracking and collection UI |
+| 9 | Review 2 | Backend demonstration | Complete UI demonstration |
+| 10 | Pre-ordering | Slot and capacity management | Slot selection and checkout |
+| 11 | Concurrency and real-time updates | Race-condition testing | WebSocket integration |
+| 12 | Analytics | Event data and SQL reporting | Analytics dashboard and optional ML |
+| 13 | Testing | Load and backend testing | UI testing and data analysis |
+| 14 | Documentation | Backend, database and OS report | Frontend, analytics and results report |
+| 15 | Final submission | Backend fixes and viva preparation | UI fixes and presentation preparation |
 
-### Example commands
+---
 
-```powershell
-git switch main
-git pull origin main
-git switch feature/your-branch
-git merge main
-# make changes, then:
-git add .
-git commit -m "feat: describe the change"
-git push -u origin feature/your-branch
-```
+## 5. Project Development Phases
 
-### Suggested branch names
+### Phase 1 – Foundation (Weeks 1–5)
 
-| Member | Suggested branch names |
-|---|---|
-| **Member 1** | `feature/backend-setup` · `feature/order-api` · `feature/counter-dispatch` · `feature/slot-capacity` · `feature/concurrency-tests` |
-| **Member 2** | `feature/frontend-setup` · `feature/student-ui` · `feature/counter-ui` · `feature/admin-dashboard` · `feature/analytics` |
+**Tasks:**
 
-## 8. Definition of done
+- Finalise problem statement.
+- Obtain faculty approval.
+- Study the existing canteen workflow.
+- Collect baseline waiting-time observations.
+- Complete literature survey.
+- Design architecture and database.
+- Set up frontend and backend environments.
 
-A feature is complete when:
+**Milestone:** Review 1 – Problem statement, objectives, architecture and diagrams.
 
-- The feature works in the integrated application, not only on one developer’s machine.
-- Input validation, success states and common error cases are handled.
-- Relevant tests pass; no secrets, `.env` files or local database files are committed.
-- API/schema changes are documented and shared with the other member.
-- The change is committed on a feature branch and merged through a reviewed Pull Request.
-- Both members can explain the feature and its role in the complete system.
+### Phase 2 – Core System (Weeks 6–9)
 
-## 9. Risks and decisions to validate early
+**Tasks:**
 
-1. Confirm with the faculty guide that a two-member team is allowed; the ADS481 guide specifies three members.
-2. Get permission from canteen management before observing staff or collecting identifiable/order data. Prefer anonymous timing observations.
-3. Confirm the actual counter layout, whether one bill can contain items from multiple counters, accepted payment methods and whether a pilot is permitted.
-4. If a live pilot or real records are unavailable, evaluate with a clearly labelled simulated dataset and a load/queue simulation. Do not present simulated results as real.
-5. Use mock payment confirmation in the prototype unless the canteen formally authorises a real payment integration.
+- Student menu.
+- Walk-in billing.
+- Order creation.
+- Payment confirmation.
+- Digital token generation.
+- Automatic counter dispatch.
+- Counter staff dashboard.
+- Order preparation status.
+- Token verification and food collection.
 
-## 10. Immediate next steps
+**Milestone:** Working MVP and Review 2 demonstration.
 
-1. Confirm that a 2-person team is permitted.
-2. Obtain permission for canteen observations.
-3. Agree on the Week 1 scope and the actual canteen workflow before parallel development.
-4. Replace “Member 1” and “Member 2” with the team members’ names and agree on the ownership split.
+### Phase 3 – Advanced Features (Weeks 10–12)
+
+**Tasks:**
+
+- Online pre-ordering.
+- Pickup slot management.
+- Capacity control.
+- Concurrent booking prevention.
+- Real-time notifications.
+- Analytics dashboard.
+- Optional demand forecasting.
+
+**Milestone:** Complete integrated system.
+
+### Phase 4 – Testing and Submission (Weeks 13–15)
+
+**Tasks:**
+
+- Integration testing.
+- Performance testing.
+- Concurrency testing.
+- Waiting-time evaluation.
+- Final report.
+- Presentation.
+- Demo and viva preparation.
+
+**Milestone:** Final submission.
+
+---
+
+## 6. GitHub Collaboration Workflow
+
+**Repository:** https://github.com/yo5on/DineDash
+
+Both members will use the same repository with separate GitHub accounts.
+
+### Member 1 Branches
+
+- `feature/backend-setup`
+- `feature/order-api`
+- `feature/counter-dispatch`
+- `feature/slot-capacity`
+- `feature/concurrency-tests`
+
+### Member 2 Branches
+
+- `feature/frontend-setup`
+- `feature/student-ui`
+- `feature/counter-ui`
+- `feature/admin-dashboard`
+- `feature/analytics`
+
+### Development Workflow
+
+1. Pull the latest `main` branch.
+2. Switch to your own feature branch.
+3. Implement your assigned feature.
+4. Test your changes.
+5. Commit and push to GitHub.
+6. Create a Pull Request.
+7. Ask the other member to review.
+8. Merge into `main` after approval.
+
+**Important:** Never directly push unfinished work to `main`.
+
+---
+
+## 7. Feature Priority
+
+### Must-Have Features
+
+- Menu management.
+- Walk-in billing interface.
+- Order management.
+- Digital token generation.
+- Automatic counter dispatch.
+- Counter staff dashboard.
+- Order status tracking.
+- Token verification.
+- Database integration.
+- Basic analytics.
+
+### Should-Have Features
+
+- Online pre-ordering.
+- Pickup slot booking.
+- Capacity management.
+- Real-time notifications.
+- Advanced analytics.
+
+### Optional Extensions
+
+- Food demand forecasting.
+- QR-based collection.
+- No-show analytics.
+- Advanced queue optimisation.
+
+### Out of Scope Initially
+
+- Real payment gateway integration.
+- Native Android application.
+- Dynamic staff reassignment.
+- Complex machine learning models.
+- Microservices architecture.
+
+---
+
+## 8. Integration Rules
+
+1. Member 1 must communicate API endpoints and response formats before Member 2 integrates them.
+2. Both members must agree on order and ticket status names.
+3. PostgreSQL must remain the source of truth for orders and payments.
+4. WebSockets will deliver notifications, while REST APIs will retrieve the actual system state.
+5. Database changes must be committed as migrations.
+6. Both members must test their modules together regularly.
+
+---
+
+## 9. Definition of Completion
+
+The project will be considered ready when:
+
+- Students can place orders.
+- Billing staff can process walk-in orders.
+- Paid orders generate unique tokens.
+- Orders reach the correct food counters.
+- Staff can update preparation status.
+- Students can verify and collect their orders.
+- Concurrent bookings are handled safely.
+- Analytics display meaningful operational metrics.
+- The entire workflow can be demonstrated successfully.
+- Documentation, tests, GitHub repository and presentation are complete.
+
+---
+
+## 10. Immediate Next Steps
+
+1. Confirm the two-member arrangement with the faculty guide.
+2. Obtain permission to observe the canteen workflow.
+3. Complete GitHub repository setup for both members.
+4. Finalise the system requirements.
+5. Create the architecture diagram, ER diagram and class diagram.
+6. Initialise React, Spring Boot and PostgreSQL.
+7. Begin development with the walk-in ordering and digital token workflow.
+
+---
+
+## 11. Academic Note
+
+The ADS481 Student Guide specifies three members per team. The proposed two-member arrangement must be approved by the faculty guide before finalising the team structure.
+
+The 15-week schedule is based on the approximate timeline provided in the department's student guide.
+
+---
+
+**Project:** DineDash  
+**Repository:** https://github.com/yo5on/DineDash  
+**Duration:** 15 Weeks  
+**Work Division:** Backend and Systems / Frontend and Analytics
