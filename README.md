@@ -24,6 +24,10 @@
 
 ---
 
-<div align="center"><samp><b>Author</b></samp></div>
+<div align="center"><samp><b>Authors</b></samp></div>
 
-<div align="center"><samp><a href="https://github.com/yo5on">Yoson · GitHub</a></samp>,b.<samp><a href="https://github.com/RaphaelRoger">Raphael Roger · GitHub</a></samp></div>
+<div align="center">
+
+<samp><a href="https://github.com/yo5on">Yoson</a> · <a href="https://github.com/RaphaelRoger">Raphael Roger</a></samp>
+
+</div>
