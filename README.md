@@ -26,4 +26,4 @@
 
 <div align="center"><samp><b>Author</b></samp></div>
 
-<div align="center"><samp><a href="https://github.com/yo5on">Yoson · GitHub</a></samp></div>
+<div align="center"><samp><a href="https://github.com/yo5on">Yoson · GitHub</a></samp><samp><a href="https://github.com/RaphaelRoger">Raphael Roger · GitHub</a></samp></div>
